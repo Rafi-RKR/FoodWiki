@@ -1,0 +1,110 @@
+<%- include("header") -%>
+
+<div class="welcome-section mt-4">
+    <div class="container">
+        <h1 class="welcome-heading">Welcome to FoodWiki!</h1><br>
+        <p class="welcome-description">Discover the World of Food</p>
+    </div>
+    <div class="row justify-content-center mt-2">
+        <div class="col-md-6">
+            <a href="/upload" class="btn btn-lg btn-primary">Upload Food!</a>
+        </div>
+    </div>
+</div>
+<br>
+<hr>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4 me-5">
+            <div class="card">
+                <img src="/images/world.jpg" class="card-img-top" alt="Discover the World">
+                <div class="card-body">
+                    <h5 class="card-title">Discover the World of Food</h5>
+                    <p class="card-text">At FoodWiki, we bring you an exciting platform where you can explore and learn about various types of food from around the world. Our deep learning model can automatically determine the name of a food just by analyzing an uploaded image!</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 ms-5">
+            <div class="card">
+                <img src="/images/deepLearning.jpg" class="card-img-top" alt="Unleashing the Power of Deep Learning">
+                <div class="card-body">
+                    <h5 class="card-title">The Power of Deep Learning</h5>
+                    <p class="card-text">We have developed a sophisticated deep learning model specifically trained on a diverse dataset of over 100 food categories. We leveraged transfer learning and experimented with different techniques to create an accurate and robust model.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <img src="/images/nutrition.png" class="card-img-top" alt="Explore Food Information and Nutrition">
+                <div class="card-body">
+                    <h5 class="card-title">Explore Food Information and Nutrition</h5>
+                    <p class="card-text">Once you upload a food image, our deep learning model instantly identifies the food and provides you with its name, description, and detailed nutritional values. You can learn about the ingredients, cooking methods, cultural significance, and more!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .welcome-section {
+        background-image: url('/images/bg.jpg');
+        background-size: cover;
+        background-position: center;
+        color: white;
+        padding: 160px 0;
+        text-align: center;
+        border-radius: 30px;
+    }
+
+    .welcome-heading {
+        font-size: 48px;
+        margin-bottom: 10px;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: inline-block;
+        padding: 5px 20px;
+        border-radius: 10px;
+    }
+
+    .welcome-description {
+        font-size: 24px;
+        margin-bottom: 30px;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: inline-block;
+        padding: 5px 10px;
+        border-radius: 10px;
+    }
+
+    .card {
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        font-size: 18px;
+        color: #555;
+        margin-bottom: 20px;
+    }
+
+    .card-img-top {
+        object-fit: cover;
+        width: 400px;
+        height: 200px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .upload-button:hover {
+        background-color: #333;
+    }
+</style>
+
+<%- include("footer") -%>

@@ -1,0 +1,157 @@
+<%- include("header") -%>
+
+<div class="container m-4">
+    <h1 class="text-center mb-4">Image Information</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card no-card-border">
+                <div class="card-body">
+                    <!-- <h5 class="card-title">Uploaded Image</h5> -->
+                    <img src="/uploads/<%= imagename %>" class="img-fluid rounded" alt="Uploaded Image">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card no-card-border">
+                <div class="card-body mt-4">
+                    <div id="fat" data-nutrient-info="<%= fat %>"></div>
+                    <div id="carbs" data-nutrient-info="<%= carbs %>"></div>
+                    <div id="protein" data-nutrient-info="<%= protein %>"></div>
+                    <div id="calories" data-nutrient-info="<%= calories %>"></div>
+                    <canvas id="myChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-8">
+            <div class="card no-card-border">
+                <div class="card-body">
+                    <h4 class="card-title" style="font-size: 28px;">Food in the image: <b><%= foodInfo.title %></b></h4>
+                    <p class="card-text" style="font-size: 18px;">
+                        <%= foodInfo.extract %>
+                        <a href="<%= foodInfo.articleUrl %>" target="_blank" rel="noopener noreferrer">Read more...</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .no-card-border {
+        border: none;
+    }
+</style>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const fat = parseFloat(document.getElementById('fat').getAttribute('data-nutrient-info'));
+    const carbs = parseFloat(document.getElementById('carbs').getAttribute('data-nutrient-info'));
+    const protein = parseFloat(document.getElementById('protein').getAttribute('data-nutrient-info'));
+    const calories = parseFloat(document.getElementById('calories').getAttribute('data-nutrient-info'));
+
+    console.log(fat)
+    const data = {
+        labels: [
+            'Fat',
+            'Carbs',
+            'Protein'
+        ],
+        datasets: [{
+            label: 'Nutrient Values',
+            data: [
+                fat,
+                carbs,
+                protein
+            ],
+            backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)'
+            ],
+            borderWidth: 4,
+            hoverOffset: 8
+        }]
+    };
+
+    const calculatePercentage = (value, total) => {
+        const percentage = (value / total) * 100;
+        return `${percentage.toFixed(1)}%`;
+    };
+
+    const doughnutLabel = {
+        id: "doughnutLabel",
+        beforeDatasetDraw(chart, args, pluginOptions) {
+            const {
+                ctx,
+                data
+            } = chart;
+            ctx.save();
+            const xCoor = chart.getDatasetMeta(0).data[0].x;
+            const yCoor = chart.getDatasetMeta(0).data[0].y;
+
+            // Draw nutrient values part
+            ctx.font = "bold 32px sans-serif";
+            ctx.fillStyle = "rgba(33,36,39, 0.8)";
+            ctx.textAlign = "center";
+            ctx.fillText(calories, xCoor, yCoor - 2);
+
+            // Draw nutrient labels part
+            ctx.font = "18px sans-serif";
+            ctx.fillText("Calories", xCoor, yCoor + 24);
+
+            ctx.restore();
+        }
+    };
+
+    const config = {
+        type: "doughnut",
+        data: data,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'right',
+                    labels: {
+                        boxWidth: 12,
+                        usePointStyle: true
+                    }
+                },
+                tooltip: {
+                    enabled: false
+                }
+            },
+            elements: {
+                arc: {
+                    borderWidth: 2
+                }
+            },
+            cutout: '60%',
+            layout: {
+                padding: {
+                    left: 5,
+                    right: 5, // Adjust the right padding to bring the legend closer
+                    top: 50,
+                    bottom: 50
+                }
+            }
+        },
+        plugins: [doughnutLabel]
+    };
+
+    const doughnutChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
+
+    // Update labels with percentages
+    const total = data.datasets[0].data.reduce((a, b) => a + b, 0);
+    const percentageLabels = data.labels.map((label, index) =>
+        `${calculatePercentage(data.datasets[0].data[index], total)} ${label}`);
+    doughnutChart.data.labels = percentageLabels;
+    doughnutChart.update();
+</script>
+
+<%- include("footer") -%>
